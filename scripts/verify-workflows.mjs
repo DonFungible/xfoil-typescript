@@ -7,6 +7,7 @@ import { TARGET_NAMES, TARGETS } from "./xfoil-targets.mjs";
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const MATRIX_TARGET_EXPRESSION = "$" + "{{ matrix.target }}";
+const GITHUB_REPOSITORY_SHELL_EXPRESSION = "$" + "{GITHUB_REPOSITORY}";
 const EXPECTED_ACTION_REFS = new Set([
   "actions/checkout@v5",
   "actions/configure-pages@v6",
@@ -122,9 +123,15 @@ function verifyCiWorkflow(text) {
 
 function verifyDocsWorkflow(text) {
   assertIncludes(text, "pnpm docs:api", "docs API build");
-  assertIncludes(text, "enablement: true", "docs enables Pages");
+  assertIncludes(
+    text,
+    `gh api "repos/${GITHUB_REPOSITORY_SHELL_EXPRESSION}/pages"`,
+    "docs checks Pages",
+  );
+  assertIncludes(text, "actions/upload-artifact@v5", "docs fallback artifact upload");
   assertIncludes(text, "actions/upload-pages-artifact@v5", "docs artifact upload");
   assertIncludes(text, "actions/deploy-pages@v5", "docs deploy");
+  assertIncludes(text, "if: needs.build.outputs.pages_enabled == 'true'", "docs deploy gate");
 }
 
 function verifyActionRefs(text, label) {
