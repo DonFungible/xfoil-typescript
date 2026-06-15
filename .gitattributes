@@ -1,0 +1,11 @@
+* text=auto eol=lf
+
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.tgz binary
+*.zip binary
+
+packages/binaries/*/xfoil binary
+packages/binaries/*/xfoil.exe binary

@@ -68,6 +68,11 @@ function verifyTargetMatrix(text, label, expectedOccurrences) {
 
 function verifyBuildWorkflow(text, label) {
   assertIncludes(text, "node scripts/build-xfoil-binary.mjs --target", `${label} build step`);
+  assertIncludes(text, "if: runner.os != 'Windows'", `${label} non-Windows build condition`);
+  assertIncludes(text, "shell: bash", `${label} non-Windows shell`);
+  assertIncludes(text, "if: runner.os == 'Windows'", `${label} Windows build condition`);
+  assertIncludes(text, "shell: msys2 {0}", `${label} Windows shell`);
+  assertIncludes(text, "MAKE: mingw32-make", `${label} Windows make`);
   assertIncludes(
     text,
     "node scripts/verify-binary-packages.mjs --target",
@@ -117,6 +122,7 @@ function verifyCiWorkflow(text) {
 
 function verifyDocsWorkflow(text) {
   assertIncludes(text, "pnpm docs:api", "docs API build");
+  assertIncludes(text, "enablement: true", "docs enables Pages");
   assertIncludes(text, "actions/upload-pages-artifact@v5", "docs artifact upload");
   assertIncludes(text, "actions/deploy-pages@v5", "docs deploy");
 }

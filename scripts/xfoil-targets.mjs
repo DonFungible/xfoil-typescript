@@ -5,7 +5,7 @@ export const DEFAULT_XFOIL_SOURCE_SHA256 =
 
 export const TARGETS = Object.freeze({
   "darwin-arm64": { cpu: "arm64", executable: "xfoil", os: "darwin", runner: "macos-14" },
-  "darwin-x64": { cpu: "x64", executable: "xfoil", os: "darwin", runner: "macos-13" },
+  "darwin-x64": { cpu: "x64", executable: "xfoil", os: "darwin", runner: "macos-15-intel" },
   "linux-arm64": { cpu: "arm64", executable: "xfoil", os: "linux", runner: "ubuntu-24.04-arm" },
   "linux-x64": { cpu: "x64", executable: "xfoil", os: "linux", runner: "ubuntu-latest" },
   "win32-x64": {

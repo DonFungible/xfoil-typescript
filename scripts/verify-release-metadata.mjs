@@ -66,6 +66,7 @@ async function verify() {
     ".github/workflows/ci.yml",
     ".github/workflows/docs.yml",
     ".github/workflows/release.yml",
+    ".gitattributes",
     "build/golden/xfoil-6.99.json",
     "CODE_OF_CONDUCT.md",
     "CONTRIBUTING.md",

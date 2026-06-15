@@ -24,7 +24,7 @@ jobs:
           - target: darwin-arm64
             runner: macos-14
           - target: darwin-x64
-            runner: macos-13
+            runner: macos-15-intel
           - target: win32-x64
             runner: windows-latest
     steps:
@@ -54,9 +54,14 @@ jobs:
             mingw-w64-x86_64-binutils
             tar
       - name: Build and stage binary
-        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
+        if: runner.os != 'Windows'
+        shell: bash
+        run: node scripts/build-xfoil-binary.mjs --target "${{ matrix.target }}"
+      - name: Build and stage binary
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
         env:
-          MAKE: ${{ runner.os == 'Windows' && 'mingw32-make' || 'make' }}
+          MAKE: mingw32-make
         run: node scripts/build-xfoil-binary.mjs --target "${{ matrix.target }}"
       - name: Verify staged binary package
         run: node scripts/verify-binary-packages.mjs --target "${{ matrix.target }}"
@@ -138,7 +143,7 @@ jobs:
           - target: darwin-arm64
             runner: macos-14
           - target: darwin-x64
-            runner: macos-13
+            runner: macos-15-intel
           - target: win32-x64
             runner: windows-latest
     steps:

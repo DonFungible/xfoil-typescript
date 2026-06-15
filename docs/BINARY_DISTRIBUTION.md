@@ -46,7 +46,7 @@ Confirm in the spike that the pinned XFOIL needs **no external data file** at ru
 | `@xfoil/linux-x64` | linux | x64 | ubuntu + old-glibc container | gfortran in manylinux-style image |
 | `@xfoil/linux-arm64` | linux | arm64 | arm64 runner (or QEMU) | gfortran |
 | `@xfoil/darwin-arm64` | darwin | arm64 | macos-14 (arm64) | Homebrew gcc/gfortran |
-| `@xfoil/darwin-x64` | darwin | x64 | macos-13 (x64) | Homebrew gcc/gfortran |
+| `@xfoil/darwin-x64` | darwin | x64 | macos-15-intel (x64) | Homebrew gcc/gfortran |
 | `@xfoil/win32-x64` | win32 | x64 | windows-latest or cross | mingw-w64 gfortran |
 
 The build entry point is `scripts/build-xfoil-binary.mjs`, invoked by `.github/workflows/build-binaries.yml`. It verifies the upstream archive SHA-256 (`5c0250643f52ce0e75d7338ae2504ce7907f2d49a30f921826717b8ac12ebe40`), compiles against `build/stub-plotlib/stub.f`, runs smoke/golden/self-containment gates, and stages `packages/binaries/<platform>/`.
