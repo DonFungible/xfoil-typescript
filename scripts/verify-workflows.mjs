@@ -100,7 +100,8 @@ function verifyReleaseWorkflow(text) {
   }
   assertIncludes(text, "pnpm verify:binary-packages", "release verifies all binary packages");
   assertIncludes(text, "pnpm check", "release runs package check");
-  assertIncludes(text, "pnpm changeset publish --provenance", "release uses provenance publish");
+  assertIncludes(text, "pnpm changeset publish", "release uses Changesets publish");
+  assertIncludes(text, 'NPM_CONFIG_PROVENANCE: "true"', "release enables npm provenance");
   assertIncludes(
     text,
     "node scripts/smoke-published-install.mjs --target",

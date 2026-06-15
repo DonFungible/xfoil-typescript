@@ -2,7 +2,7 @@
 
 Phased plan from zero to a published, open-source `xfoil@1.0.0`, then beyond. The TypeScript wrapper and the macOS arm64 headless binary spike are implemented. The remaining release gate is validating/staging every supported platform artifact in CI — if a platform proves infeasible, scope and platform support adjust before publishing 1.0.
 
-**Current alpha status (2026-06-15):** monorepo tooling, the `xfoil` wrapper package, pure geometry/parsers, Node backend, binary resolver, command builders, `raw()`/`session()`, examples, package checks, launch guides, a reproducible XFOIL 6.99 builder, the exact plotlib stub, a staged `@xfoil/darwin-arm64` binary, packed-install/published-install smoke tooling, TypeDoc/GitHub Pages workflow, Changesets/provenance release workflow, package-level `prepublishOnly` safety guards, shared target metadata, and workflow consistency verification are implemented. Real-binary integration tests now cover Darwin arm64 polar/Cp/BL, explicit `PPAR`, forced transition, flap via `GDES`, alpha ramping, failed-point reporting, concurrent solver isolation, and single-point/sequence Cl solves. Backend timeout handling is covered by a deterministic process test. Cross-platform binary artifacts, remote all-OS validation, a full release dry run, and licensing review remain open.
+**Current alpha status (2026-06-15):** monorepo tooling, the `xfoil` wrapper package, pure geometry/parsers, Node backend, binary resolver, command builders, `raw()`/`session()`, examples, package checks, launch guides, a reproducible XFOIL 6.99 builder, the exact plotlib stub, a staged `@xfoil/darwin-arm64` binary, packed-install/published-install smoke tooling, TypeDoc/GitHub Pages workflow, Changesets publish with npm provenance enabled, package-level `prepublishOnly` safety guards, shared target metadata, and workflow consistency verification are implemented. Real-binary integration tests now cover Darwin arm64 polar/Cp/BL, explicit `PPAR`, forced transition, flap via `GDES`, alpha ramping, failed-point reporting, concurrent solver isolation, and single-point/sequence Cl solves. Backend timeout handling is covered by a deterministic process test. Cross-platform binary artifacts, remote all-OS validation, a full release dry run, and licensing review remain open.
 
 Effort is rough relative sizing (S/M/L), not calendar commitments.
 
@@ -62,7 +62,7 @@ Buildable and fully testable offline; ships value to the browser immediately.
 - [x] `npx xfoil --doctor` support command with JSON mode and real-binary smoke test.
 - [x] `ci.yml` (unit + packaging on all OS/Node; integration where a binary exists).
 - [x] Packed-install smoke script (`pnpm smoke:packed-install`) for wrapper + platform tarballs; remote all-OS validation pending in the binary matrix.
-- [x] `release.yml`: binary matrix gates, staged artifact assembly, Changesets lockstep versioning, and `--provenance`; live dry-run/publish validation pending.
+- [x] `release.yml`: binary matrix gates, staged artifact assembly, Changesets lockstep versioning, and npm provenance config; live dry-run/publish validation pending.
 
 **Exit:** a dry-run release publishes to a test registry and `npm install xfoil` → working `analyze()` on every supported platform.
 

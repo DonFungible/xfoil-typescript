@@ -57,7 +57,7 @@ The `release.yml` workflow must:
 - assemble staged artifacts in the publish job,
 - run `pnpm verify:binary-packages`,
 - run `pnpm check`,
-- publish with Changesets and `--provenance`,
+- publish with Changesets while `NPM_CONFIG_PROVENANCE=true` enables npm provenance,
 - run `scripts/smoke-published-install.mjs` on every supported OS after a real publish.
 
 If post-publish smoke fails, deprecate the broken package version immediately and publish a fixed patch.

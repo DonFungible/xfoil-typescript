@@ -67,7 +67,7 @@ The per-platform matrix from [Binary Distribution §3](BINARY_DISTRIBUTION.md#3-
 - Publish order: `@xfoil/*` binary packages first, then `xfoil` (so the wrapper's `optionalDependencies` resolve).
 - Package-level `prepublishOnly` guards repeat the critical checks: every binary package verifies its own staged executable, including portable Mach-O/ELF/PE OS+CPU header checks, and the wrapper verifies release metadata plus all binary packages. A local wrapper publish fails while any binary package is still `pending`.
 - `scripts/verify-workflows.mjs` checks workflow target matrices, runner mappings, allowed action refs, release artifact download paths, and critical publish/smoke commands against the shared `scripts/xfoil-targets.mjs` target map.
-- `npm publish --provenance` (OIDC) for supply-chain provenance on every package.
+- Changesets publish with npm provenance enabled through OIDC (`NPM_CONFIG_PROVENANCE=true`) for every package.
 - Post-publish: `scripts/smoke-published-install.mjs` runs against the *published* packages on every supported OS; a failure triggers a deprecate/rollback runbook.
 - Tag the repo with the XFOIL source snapshot used (GPL §3 compliance).
 
@@ -93,7 +93,7 @@ The per-platform matrix from [Binary Distribution §3](BINARY_DISTRIBUTION.md#3-
 | **Path/filename safety** | Output filenames are library-generated (unique, alphanumeric) inside a private `mkdtemp` dir; user-supplied `datPath` is read by us and rewritten to a safe temp name. Reject filenames with separators/whitespace in any path that reaches XFOIL. |
 | **Resource bounds** | Hard `timeoutMs` with process-tree kill; no unbounded buffering (cap captured stdout, stream to logger). Document that untrusted geometry can still make XFOIL spin — the timeout is the backstop. |
 | **Temp-dir lifecycle** | Created per run, removed in `finally` (success/throw/timeout/abort); `keepFiles` is opt-in and logged. |
-| **Supply chain** | `npm publish --provenance`; pinned, vendored XFOIL source; lockfile committed; Dependabot/renovate on dev deps; minimal runtime deps (ideally zero). |
+| **Supply chain** | npm provenance enabled through OIDC; pinned, vendored XFOIL source; lockfile committed; Dependabot/renovate on dev deps; minimal runtime deps (ideally zero). |
 | **Untrusted input posture** | Documented threat model: the library is safe to call with untrusted *numeric* parameters and *coordinate* data under the timeout; running fully attacker-controlled raw command scripts is the caller's responsibility. |
 | **Binaries integrity** | Built only in CI from pinned source; provenance attestation; checksums recorded per release. |
 
