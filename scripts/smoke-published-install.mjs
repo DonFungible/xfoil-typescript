@@ -83,7 +83,8 @@ async function main() {
 async function run(command, commandArgs, options = {}) {
   const timeoutMs = options.timeoutMs ?? 60_000;
   return new Promise((resolve, reject) => {
-    const child = spawn(command, commandArgs, {
+    const executable = resolveCommand(command);
+    const child = spawn(executable, commandArgs, {
       cwd: options.cwd ?? process.cwd(),
       env: process.env,
       shell: false,
@@ -120,6 +121,10 @@ async function run(command, commandArgs, options = {}) {
       resolve({ stderr, stdout });
     });
   });
+}
+
+function resolveCommand(command) {
+  return platform === "win32" && command === "npm" ? "npm.cmd" : command;
 }
 
 function parseArgs(rawArgs) {
