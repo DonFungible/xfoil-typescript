@@ -94,7 +94,7 @@ async function main() {
 
   const objects = (await readdir(binDir)).filter((file) => file.endsWith(".o")).sort();
   const binaryPath = join(binDir, executableName);
-  await run(FC, [...linkFlags(), "-o", binaryPath, ...objects], { cwd: binDir });
+  await run(FC, ["-o", binaryPath, ...objects, ...linkFlags()], { cwd: binDir });
   await chmod(binaryPath, 0o755);
   await verifyExecutableTarget(binaryPath);
 
@@ -206,7 +206,16 @@ function compileFlags() {
 function linkFlags() {
   const flags = ["-static-libgfortran", "-static-libgcc", "-static-libquadmath"];
 
-  if (target.startsWith("win32")) return ["-static", ...flags];
+  if (target.startsWith("win32")) {
+    return [
+      "-static",
+      ...flags,
+      "-Wl,-Bstatic",
+      "-Wl,--whole-archive",
+      "-lwinpthread",
+      "-Wl,--no-whole-archive",
+    ];
+  }
   if (target.startsWith("darwin")) {
     const sdk = env.SDKROOT ?? runSync("xcrun", ["--show-sdk-path"]).trim();
     return [`-Wl,-syslibroot,${sdk}`, ...flags];
