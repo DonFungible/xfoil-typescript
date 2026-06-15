@@ -69,6 +69,8 @@ function verifyTargetMatrix(text, label, expectedOccurrences) {
 
 function verifyBuildWorkflow(text, label) {
   assertIncludes(text, "node scripts/build-xfoil-binary.mjs --target", `${label} build step`);
+  assertIncludes(text, 'echo "FC=$gfortran_path" >> "$GITHUB_ENV"', `${label} macOS FC`);
+  assertIncludes(text, "path-type: inherit", `${label} Windows inherited PATH`);
   assertIncludes(text, "if: runner.os != 'Windows'", `${label} non-Windows build condition`);
   assertIncludes(text, "shell: bash", `${label} non-Windows shell`);
   assertIncludes(text, "if: runner.os == 'Windows'", `${label} Windows build condition`);

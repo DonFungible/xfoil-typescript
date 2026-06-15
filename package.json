@@ -6,7 +6,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "build": "pnpm -r --filter './packages/**' build",
+    "build": "pnpm --filter xfoil build",
     "build:xfoil": "node scripts/build-xfoil-binary.mjs",
     "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm package:check && pnpm verify:release-metadata && pnpm verify:workflows",
     "check:npm-names": "node scripts/check-npm-names.mjs",
@@ -18,9 +18,9 @@
     "purity": "node scripts/check-purity.mjs",
     "smoke:packed-install": "node scripts/smoke-packed-install.mjs",
     "smoke:published-install": "node scripts/smoke-published-install.mjs",
-    "test": "pnpm -r --filter './packages/**' test && pnpm test:tooling",
+    "test": "pnpm --filter xfoil test && pnpm test:tooling",
     "test:tooling": "node scripts/test-inspect-executable.mjs",
-    "typecheck": "pnpm -r --filter './packages/**' typecheck",
+    "typecheck": "pnpm --filter xfoil typecheck",
     "verify:binary-packages": "node scripts/verify-binary-packages.mjs",
     "verify:release-metadata": "node scripts/verify-release-metadata.mjs",
     "verify:workflows": "node scripts/verify-workflows.mjs"

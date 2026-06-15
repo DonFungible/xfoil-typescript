@@ -407,6 +407,7 @@ function normalizeFortranSymbol(token) {
   const withoutLeadingUnderscores = token.trim().replace(/^_+/, "");
   if (!/^[A-Za-z][A-Za-z0-9_]*_$/.test(withoutLeadingUnderscores)) return undefined;
   const name = withoutLeadingUnderscores.slice(0, -1);
+  if (name === "GLOBAL_OFFSET_TABLE") return undefined;
   if (name.toLowerCase().startsWith("gfortran")) return undefined;
   return name.toUpperCase();
 }

@@ -37,12 +37,20 @@ jobs:
           sudo apt-get install -y gfortran make binutils
       - name: Install macOS toolchain
         if: runner.os == 'macOS'
-        run: brew install gcc || true
+        run: |
+          brew install gcc
+          gfortran_path="$(brew --prefix gcc)/bin/gfortran"
+          if [ ! -x "$gfortran_path" ]; then
+            gfortran_path="$(brew --prefix gcc)/bin/gfortran-15"
+          fi
+          echo "FC=$gfortran_path" >> "$GITHUB_ENV"
+          "$gfortran_path" --version
       - name: Install Windows toolchain
         if: runner.os == 'Windows'
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
+          path-type: inherit
           update: true
           install: >-
             mingw-w64-x86_64-gcc
