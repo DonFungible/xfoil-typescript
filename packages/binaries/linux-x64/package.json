@@ -1,0 +1,23 @@
+{
+  "name": "@xfoil/linux-x64",
+  "version": "0.1.0",
+  "description": "Prebuilt headless XFOIL binary for linux-x64.",
+  "license": "GPL-2.0-or-later",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "xfoil",
+    "LICENSE",
+    "SOURCE_OFFER.md",
+    "VERSION",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "node ../../../scripts/verify-binary-packages.mjs --target linux-x64"
+  },
+  "xfoilVersion": "pending"
+}

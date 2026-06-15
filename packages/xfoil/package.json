@@ -1,0 +1,90 @@
+{
+  "name": "xfoil",
+  "version": "0.1.0",
+  "description": "Run headless XFOIL from TypeScript with typed results and browser-safe geometry/parsers.",
+  "type": "module",
+  "sideEffects": false,
+  "license": "MIT",
+  "author": "Don <don@don.dev>",
+  "homepage": "https://github.com/don/xfoil-typescript#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/don/xfoil-typescript.git",
+    "directory": "packages/xfoil"
+  },
+  "bugs": {
+    "url": "https://github.com/don/xfoil-typescript/issues"
+  },
+  "keywords": [
+    "xfoil",
+    "airfoil",
+    "aerodynamics",
+    "cfd",
+    "typescript"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "xfoil": "./bin/xfoil.mjs"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./geometry": {
+      "import": {
+        "types": "./dist/geometry.d.ts",
+        "default": "./dist/geometry.js"
+      },
+      "require": {
+        "types": "./dist/geometry.d.cts",
+        "default": "./dist/geometry.cjs"
+      }
+    },
+    "./parsers": {
+      "import": {
+        "types": "./dist/parsers.d.ts",
+        "default": "./dist/parsers.js"
+      },
+      "require": {
+        "types": "./dist/parsers.d.cts",
+        "default": "./dist/parsers.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "optionalDependencies": {
+    "@xfoil/darwin-arm64": "0.1.0",
+    "@xfoil/darwin-x64": "0.1.0",
+    "@xfoil/linux-arm64": "0.1.0",
+    "@xfoil/linux-x64": "0.1.0",
+    "@xfoil/win32-x64": "0.1.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "biome ci .",
+    "package:check": "publint && attw --pack . --profile node16",
+    "prepublishOnly": "node ../../scripts/verify-release-metadata.mjs && node ../../scripts/verify-binary-packages.mjs",
+    "test": "vitest run --exclude '**/*.int.test.ts'",
+    "test:integration": "vitest run test/*.int.test.ts",
+    "typecheck": "tsc --noEmit"
+  }
+}

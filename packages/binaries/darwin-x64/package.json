@@ -1,0 +1,23 @@
+{
+  "name": "@xfoil/darwin-x64",
+  "version": "0.1.0",
+  "description": "Prebuilt headless XFOIL binary for darwin-x64.",
+  "license": "GPL-2.0-or-later",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "xfoil",
+    "LICENSE",
+    "SOURCE_OFFER.md",
+    "VERSION",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "node ../../../scripts/verify-binary-packages.mjs --target darwin-x64"
+  },
+  "xfoilVersion": "pending"
+}

@@ -1,0 +1,12 @@
+{
+  "entryPoints": [
+    "packages/xfoil/src/index.ts",
+    "packages/xfoil/src/geometry/index.ts",
+    "packages/xfoil/src/parsers/index.ts"
+  ],
+  "entryPointStrategy": "resolve",
+  "tsconfig": "packages/xfoil/tsconfig.json",
+  "out": "docs/api",
+  "readme": "README.md",
+  "name": "xfoil"
+}

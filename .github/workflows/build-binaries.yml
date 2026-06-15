@@ -1,0 +1,72 @@
+name: Build XFOIL Binaries
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: ${{ matrix.target }}
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: linux-x64
+            runner: ubuntu-latest
+          - target: linux-arm64
+            runner: ubuntu-24.04-arm
+          - target: darwin-arm64
+            runner: macos-14
+          - target: darwin-x64
+            runner: macos-13
+          - target: win32-x64
+            runner: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install Linux toolchain
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gfortran make binutils
+      - name: Install macOS toolchain
+        if: runner.os == 'macOS'
+        run: brew install gcc || true
+      - name: Install Windows toolchain
+        if: runner.os == 'Windows'
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-make
+            mingw-w64-x86_64-binutils
+            tar
+      - name: Build and stage binary
+        shell: ${{ runner.os == 'Windows' && 'msys2 {0}' || 'bash' }}
+        env:
+          MAKE: ${{ runner.os == 'Windows' && 'mingw32-make' || 'make' }}
+        run: node scripts/build-xfoil-binary.mjs --target "${{ matrix.target }}"
+      - name: Verify staged binary package
+        run: node scripts/verify-binary-packages.mjs --target "${{ matrix.target }}"
+      - name: Install JS dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build wrapper
+        run: pnpm --filter xfoil build
+      - name: Run integration tests
+        env:
+          XFOIL_BINARY_PATH: ${{ github.workspace }}/packages/binaries/${{ matrix.target }}/${{ startsWith(matrix.target, 'win32') && 'xfoil.exe' || 'xfoil' }}
+        run: pnpm --filter xfoil test:integration
+      - name: Packed install smoke
+        run: pnpm smoke:packed-install -- --target "${{ matrix.target }}"
+      - uses: actions/upload-artifact@v5
+        with:
+          name: xfoil-${{ matrix.target }}
+          path: packages/binaries/${{ matrix.target }}

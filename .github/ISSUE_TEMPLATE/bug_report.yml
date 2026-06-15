@@ -1,0 +1,37 @@
+name: Bug Report
+description: Report a problem with xfoil.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: xfoil version
+      placeholder: 0.1.0
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: macOS arm64, Linux x64, Windows x64
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: "20.19.0"
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor output
+      description: Paste `npx xfoil --doctor` or `npx xfoil doctor --json` output.
+      render: shell
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include code, command output, and whether XFOIL_BINARY_PATH or a bundled binary was used.

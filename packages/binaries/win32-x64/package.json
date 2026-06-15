@@ -1,0 +1,23 @@
+{
+  "name": "@xfoil/win32-x64",
+  "version": "0.1.0",
+  "description": "Prebuilt headless XFOIL binary for win32-x64.",
+  "license": "GPL-2.0-or-later",
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "xfoil.exe",
+    "LICENSE",
+    "SOURCE_OFFER.md",
+    "VERSION",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "node ../../../scripts/verify-binary-packages.mjs --target win32-x64"
+  },
+  "xfoilVersion": "pending"
+}

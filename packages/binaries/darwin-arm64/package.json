@@ -1,0 +1,23 @@
+{
+  "name": "@xfoil/darwin-arm64",
+  "version": "0.1.0",
+  "description": "Prebuilt headless XFOIL binary for darwin-arm64.",
+  "license": "GPL-2.0-or-later",
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "files": [
+    "xfoil",
+    "LICENSE",
+    "SOURCE_OFFER.md",
+    "VERSION",
+    "README.md"
+  ],
+  "scripts": {
+    "prepublishOnly": "node ../../../scripts/verify-binary-packages.mjs --target darwin-arm64"
+  },
+  "xfoilVersion": "6.99"
+}

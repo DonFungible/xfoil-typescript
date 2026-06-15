@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.tgz
+*.log
+packages/xfoil/dist/
+docs/api/

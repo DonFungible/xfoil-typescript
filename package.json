@@ -1,0 +1,41 @@
+{
+  "name": "xfoil-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TypeScript wrapper and distribution tooling for headless XFOIL.",
+  "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "pnpm -r --filter './packages/**' build",
+    "build:xfoil": "node scripts/build-xfoil-binary.mjs",
+    "check": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm package:check && pnpm verify:release-metadata && pnpm verify:workflows",
+    "check:npm-names": "node scripts/check-npm-names.mjs",
+    "changeset": "changeset",
+    "docs:api": "typedoc --options typedoc.json",
+    "format": "biome format --write .",
+    "lint": "biome ci . && pnpm purity",
+    "package:check": "pnpm --filter xfoil package:check",
+    "purity": "node scripts/check-purity.mjs",
+    "smoke:packed-install": "node scripts/smoke-packed-install.mjs",
+    "smoke:published-install": "node scripts/smoke-published-install.mjs",
+    "test": "pnpm -r --filter './packages/**' test && pnpm test:tooling",
+    "test:tooling": "node scripts/test-inspect-executable.mjs",
+    "typecheck": "pnpm -r --filter './packages/**' typecheck",
+    "verify:binary-packages": "node scripts/verify-binary-packages.mjs",
+    "verify:release-metadata": "node scripts/verify-release-metadata.mjs",
+    "verify:workflows": "node scripts/verify-workflows.mjs"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.3",
+    "@biomejs/biome": "^2.5.0",
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "^20.19.43",
+    "@vitest/coverage-v8": "^4.1.8",
+    "publint": "^0.3.21",
+    "tsup": "^8.5.1",
+    "tsx": "^4.22.4",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
+  }
+}
