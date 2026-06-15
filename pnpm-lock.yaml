@@ -90,19 +90,19 @@ importers:
   packages/xfoil:
     optionalDependencies:
       '@xfoil/darwin-arm64':
-        specifier: 0.1.0
+        specifier: 0.2.0
         version: link:../binaries/darwin-arm64
       '@xfoil/darwin-x64':
-        specifier: 0.1.0
+        specifier: 0.2.0
         version: link:../binaries/darwin-x64
       '@xfoil/linux-arm64':
-        specifier: 0.1.0
+        specifier: 0.2.0
         version: link:../binaries/linux-arm64
       '@xfoil/linux-x64':
-        specifier: 0.1.0
+        specifier: 0.2.0
         version: link:../binaries/linux-x64
       '@xfoil/win32-x64':
-        specifier: 0.1.0
+        specifier: 0.2.0
         version: link:../binaries/win32-x64
 
 packages:
