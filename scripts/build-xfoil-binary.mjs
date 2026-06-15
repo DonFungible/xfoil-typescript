@@ -82,7 +82,7 @@ async function main() {
   if (!args.sourceArchive) await download(XFOIL_SOURCE_URL, archive);
   await verifyArchiveChecksum(archive);
 
-  await run(TAR, ["-xzf", archive, "-C", workDir]);
+  await run(TAR, ["-xzf", await toToolPath(archive), "-C", await toToolPath(workDir)]);
   const xfoilRoot = join(workDir, "Xfoil");
   const binDir = join(xfoilRoot, "bin");
   await ensureFile(join(binDir, "Makefile_gfortran"), "XFOIL gfortran makefile");
@@ -120,6 +120,7 @@ async function compileSolverObjects(binDir) {
       "-f",
       "Makefile_gfortran",
       "xfoil",
+      `FC=${FC}`,
       "BINDIR=/tmp/xfoil-build-unused",
       "PLTOBJ=",
       "PLTLIB=",
@@ -457,6 +458,11 @@ async function ensureFile(path, label) {
   } catch {
     throw new Error(`Missing ${label}: ${path}`);
   }
+}
+
+async function toToolPath(path) {
+  if (platform !== "win32" || !env.MSYSTEM) return path;
+  return (await run("cygpath", ["-u", path])).stdout.trim();
 }
 
 async function run(command, args, options = {}) {

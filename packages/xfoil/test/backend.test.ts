@@ -1,4 +1,4 @@
-import { chmod, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -14,20 +14,22 @@ describe("NodeNativeBackend", () => {
   it("times out and kills a stalled process", async () => {
     const dir = await mkdtemp(join(tmpdir(), "xfoil-backend-test-"));
     tempDirs.push(dir);
-    const binaryPath = join(dir, "stalled-xfoil");
+    const hookPath = join(dir, "stalled-xfoil.cjs");
     await writeFile(
-      binaryPath,
+      hookPath,
       [
-        "#!/usr/bin/env node",
+        "process.on('uncaughtException', () => {});",
         "process.stdin.resume();",
         "process.stdout.write('XFOIL Version 6.99\\n');",
         "setTimeout(() => {}, 10_000);",
       ].join("\n"),
       "utf8",
     );
-    await chmod(binaryPath, 0o755);
 
-    const backend = new NodeNativeBackend({ binaryPath });
+    const backend = new NodeNativeBackend({
+      binaryPath: process.execPath,
+      env: { NODE_OPTIONS: `--require=${hookPath}` },
+    });
     const result = await backend.run({ outputFiles: [], script: ["QUIT"], timeoutMs: 50 });
 
     expect(result.timedOut).toBe(true);
