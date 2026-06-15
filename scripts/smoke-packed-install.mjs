@@ -90,11 +90,10 @@ async function main() {
 async function run(command, commandArgs, options = {}) {
   const timeoutMs = options.timeoutMs ?? 60_000;
   return new Promise((resolve, reject) => {
-    const executable = resolveCommand(command);
-    const child = spawn(executable, commandArgs, {
+    const child = spawn(command, commandArgs, {
       cwd: options.cwd ?? ROOT,
       env: process.env,
-      shell: false,
+      shell: needsShell(command),
       stdio: ["ignore", "pipe", "pipe"],
     });
     let stdout = "";
@@ -130,10 +129,11 @@ async function run(command, commandArgs, options = {}) {
   });
 }
 
-function resolveCommand(command) {
-  return platform === "win32" && (command === "npm" || command === "pnpm")
-    ? `${command}.cmd`
-    : command;
+function needsShell(command) {
+  return (
+    platform === "win32" &&
+    (command === "npm" || command === "pnpm" || command.toLowerCase().endsWith(".cmd"))
+  );
 }
 
 async function packPackage(filter, packDir) {
