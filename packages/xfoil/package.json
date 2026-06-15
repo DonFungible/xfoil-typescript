@@ -1,6 +1,6 @@
 {
   "name": "xfoil",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Run headless XFOIL from TypeScript with typed results and browser-safe geometry/parsers.",
   "type": "module",
   "sideEffects": false,
@@ -71,11 +71,11 @@
     "node": ">=20"
   },
   "optionalDependencies": {
-    "@xfoil/darwin-arm64": "0.1.0",
-    "@xfoil/darwin-x64": "0.1.0",
-    "@xfoil/linux-arm64": "0.1.0",
-    "@xfoil/linux-x64": "0.1.0",
-    "@xfoil/win32-x64": "0.1.0"
+    "@xfoil/darwin-arm64": "0.2.0",
+    "@xfoil/darwin-x64": "0.2.0",
+    "@xfoil/linux-arm64": "0.2.0",
+    "@xfoil/linux-x64": "0.2.0",
+    "@xfoil/win32-x64": "0.2.0"
   },
   "scripts": {
     "build": "tsup",
